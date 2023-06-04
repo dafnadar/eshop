@@ -7,13 +7,42 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+/*This sets the background color of the header section to #404040*/
 header {
   background-color: #404040;
+
+/*This sets the padding inside the header section to 1rem */ 
   padding: 1rem;  
 }
 
+/*This sets the color of the link in the header section to #ffffff, makes the text bold, and removes the underline effect from the link */
 header a {
   color: #ffffff;
   font-weight: bold;
   text-decoration: none;
+}
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.product {
+  border:1px #404040 solid;
+  margin: 1rem;
+}
+
+.product img {
+  width: 100%;
+  max-width: 400px;
+}
+
+main {
+  padding: 1rem;
+}
+
+.product-desc {
+  padding: 1rem;
 }
