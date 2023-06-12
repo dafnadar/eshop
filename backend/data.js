@@ -3,7 +3,7 @@ const data = {
       {
         name: 'productA-name',
         category: 'Pharma',
-        description: '',
+        description: '...',
         price: 100,
         token: 'productA-token',
         brand: 'Teva',
@@ -15,7 +15,7 @@ const data = {
       {
         name: 'productB-name',
         category: 'Pharma',
-        description: '',
+        description: '...',
         price: 70,
         token: 'productB-token',
         brand: 'Teva',
@@ -27,7 +27,7 @@ const data = {
       {
         name: 'productC-name',
         category: 'Pharma',
-        description: '',
+        description: '...',
         price: 10,
         token: 'productC-token',
         brand: 'Teva',
@@ -39,7 +39,7 @@ const data = {
       {
         name: 'productD-name',
         category: 'Pharma',
-        description: '',
+        description: '...',
         price: 110,
         token: 'productD-token',
         brand: 'Teva',
@@ -47,7 +47,7 @@ const data = {
         rating: 4.5,
         numReviews: 80,
         image: '/images/p4.jpg',
-      },
+      },      
     ],
   };
   
