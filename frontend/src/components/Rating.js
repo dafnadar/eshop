@@ -1,6 +1,6 @@
 import React from "react";
 
-const Rating = (props) => {
+function Rating(props) {
   const { rating, numReviews } = props;
 
   return (

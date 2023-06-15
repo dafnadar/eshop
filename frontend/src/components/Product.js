@@ -8,15 +8,18 @@ function Product(props) {
 
   return (
     <Card className="product-card">
+      <div className="">
       <Link to={`/product/${product.token}`}>
         <img className="card-img-top" src={product.image} alt={product.name} />
       </Link>
+      </div>
       <Card.Body>
         <Link to={`/product/${product.token}`}>
           <Card.Title>{product.name}</Card.Title>
         </Link>
-        <Rating rating={product.rating} numReviews={product.numReviews} />
         <Card.Text>{product.price}$</Card.Text>
+        <Card.Text className="desc">{product.description}</Card.Text>
+        <Rating rating={product.rating} numReviews={product.numReviews} />
         <Button>Add to cart</Button>
       </Card.Body>
     </Card>
