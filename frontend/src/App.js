@@ -6,17 +6,19 @@ import Container from "react-bootstrap/Container";
 import { LinkContainer } from "react-router-bootstrap";
 import Badge from "react-bootstrap/esm/Badge";
 import { useContext } from "react";
-import { Store } from "./Store";
+import CartPage from "./pages/CartPage";
+import SigninPage from "./pages/SigninPage";
+import { Store } from "./store";
 
 function App() {
-
   const {state} = useContext(Store);
   const {cart} = state;
 
   return (
     <BrowserRouter>
-      <div className="d-flex flex-column side-fullpage">
-        <header>
+      <div className="d-flex flex-column side-fullPage">
+        <header className="header">
+          {/* move navbar to component */}
           <Navbar bg="dark" variant="dark">
             <Container>
               <LinkContainer to="/">
@@ -35,17 +37,23 @@ function App() {
             </Container>
           </Navbar>
         </header>
+        {/* make Header component */}
+        {/* <Header/> */}
         <main>
           <Container className="mt-3">
             <Routes>
+              <Route path="/signin" element={<SigninPage />} />
+              <Route path="/cart" element={<CartPage />} />
               <Route path="/product/:token" element={<ProductPage />} />
               <Route path="/" element={<HomePage />} />
             </Routes>
           </Container>
         </main>
+        {/* make Footer component */}
+        {/* <Footer/> */}
         <footer>
           <div className="small text-muted text-center">
-            © 2023. All Rights Reserved
+            All Rights Reserved © 2023. 
           </div>
         </footer>
       </div>

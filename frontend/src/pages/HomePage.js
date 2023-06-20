@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
-import data from "../data";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 import axios from "axios";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -8,15 +6,16 @@ import Product from "../components/Product";
 import { Helmet } from 'react-helmet-async';
 import Loading from '../components/Loading';
 import MessageBox from "../components/MessageBox";
+//TODO: Aggregate imports into single js file!!
 
-
+//TODO: export all case string into const!!
 const reducer = (state, action) => {
   switch (action.type) {
     case "GET_REQUEST":
       return { ...state, loading: true };
     case "GET_SUCCESS":
       return { ...state, products: action.payload, loading: false };
-    case "GET_FAILURE":
+    case "GET_FAIL":
       return { ...state, loading: false, error: action.payload };
     default:
       return state;
@@ -38,7 +37,7 @@ function HomePage() {
         const res = await axios.get("/api/v1/products");
         dispatch({ type: "GET_SUCCESS", payload: res.data });
       } catch (err) {
-        dispatch({ type: "GET_FAILURE", payload: err.message });
+        dispatch({ type: "GET_FAIL", payload: err.message });
       }
     };
 
@@ -55,7 +54,9 @@ function HomePage() {
         {loading ? (
           <Loading/>
         ) : error ? (
-          <MessageBox variant='danger'>{error}</MessageBox>          
+          <MessageBox variant='danger'>
+            {error}
+            </MessageBox>          
         ) : (
           <Row>
             {products.map((product) => (

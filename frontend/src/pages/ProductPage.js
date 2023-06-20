@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useReducer } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -11,8 +11,9 @@ import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
 import Loading from "../components/Loading";
 import MessageBox from "../components/MessageBox";
-import { getError } from "../utills";
-import { Store } from "../Store";
+import { getError } from "../utils";
+import { Store } from "../store";
+
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -28,6 +29,7 @@ const reducer = (state, action) => {
 };
 
 function ProductPage() {
+  const navigate = useNavigate();
   const params = useParams();
   const { token } = params;
 
@@ -42,7 +44,7 @@ function ProductPage() {
       dispatch({ type: "GET_REQUEST" });
 
       try {
-        const res = await axios.get(`/api/v1/product/token/${token}`);
+        const res = await axios.get(`/api/v1/products/token/${token}`);
         dispatch({ type: "GET_SUCCESS", payload: res.data });
       } catch (err) {
         console.log("fff", err);
@@ -57,17 +59,16 @@ function ProductPage() {
   const { cart } = state;
   
   const addToCartHandler = async () => {
-    console.log(product);
     const existItem = cart.cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/v1/products/${product._id}`);
-    console.log(data);
     if (data.countInStock < quantity) {
       window.alert('Sorry. Product is out of stock');
       return;
     }
 
     ctxDispatcher({ type: 'ADD_TO_CART', payload: { ...product, quantity } });
+    navigate("/cart");
   };
 
   return (

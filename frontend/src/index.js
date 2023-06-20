@@ -6,7 +6,7 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 import { HelmetProvider } from "react-helmet-async";
-import { StoreProvider } from "./Store";
+import { StoreProvider } from "./store";
 
 axios.defaults.baseURL = "http://localhost:5000";
 

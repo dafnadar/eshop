@@ -4,53 +4,23 @@ import data from './data.js';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import seedRouter from './routes/seedRoutes.js';
+import productRouter from './routes/productRoutes.js';
+import userRouter from './routes/userRoutes.js';
 
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 const app = express();
 
-app.use(cors());
-app.use(express.json());
+app.use(cors()); // middleware hadle move between domains
+app.use(express.json());  // middleware hadle jsons
+app.use(express.urlencoded({ extended: true })); // middleware to support encoding
 
+app.use('/api/v1/users', userRouter);
 app.use('/api/v1/seed', seedRouter); 
-// app.use('/api/v1/product/token/:token', (req, res) => {
-//   const product = data.products.find(x => x.token === req.params.token);
-//   if(product) {
-//     res.send(product)
-//   }
-//   else {
-//     res.status(404).send({message: 'Product was not found'});
-//   }
-
-// }); 
-
-
-//Endpoints
-app.get('/api/v1/products', (req, res) => {
-  res.send(data.products);
+app.use('/api/v1/products', productRouter); 
+app.use((err, req, res, next) => {
+  res.status(500).send({message: err.message});
 });
-
-app.get('/api/v1/product/token/:token', (req, res) => {
-  const product = data.products.find(x => x.token === req.params.token);
-  if(product) {
-    res.send(product)
-  }
-  else {
-    res.status(404).send({message: 'Product was not found'});
-  }
-}); 
-
-app.get('/api/v1/products/:id', (req, res) => {
-  const product = data.products.find(x => x._id === req.params._id);
-  if(product) {
-    res.send(product)
-  }
-  else {
-    res.status(404).send({message: 'Product was not found'});
-  }
-}); 
-
-
 
 mongoose.connect(process.env.MONGODB_URI)
 .then(() => {
@@ -60,4 +30,5 @@ mongoose.connect(process.env.MONGODB_URI)
   });
 }).catch((err) => {
   console.log(`Failed to connect to mongoDB: ${err.message}`);
+  console.error(err);
 })
