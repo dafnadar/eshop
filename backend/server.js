@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
 import express from 'express';
-import data from './data.js';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import seedRouter from './routes/seedRoutes.js';
@@ -11,24 +10,25 @@ dotenv.config();
 const PORT = process.env.PORT || 5000;
 const app = express();
 
-app.use(cors()); // middleware hadle move between domains
-app.use(express.json());  // middleware hadle jsons
-app.use(express.urlencoded({ extended: true })); // middleware to support encoding
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
-app.use('/api/v1/users', userRouter);
-app.use('/api/v1/seed', seedRouter); 
-app.use('/api/v1/products', productRouter); 
+app.use('/api/v1/users',userRouter);
+app.use('/api/v1/seed', seedRouter);
+app.use('/api/v1/products', productRouter);
 app.use((err, req, res, next) => {
   res.status(500).send({message: err.message});
 });
 
-mongoose.connect(process.env.MONGODB_URI)
-.then(() => {
-  console.log("connected to DB");
-  app.listen(PORT, () => {
-    console.log(`Listenning on port ${PORT}`);
+
+mongoose
+  .connect(process.env.MONGO_DB_URI)
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.log(err.message);
   });
-}).catch((err) => {
-  console.log(`Failed to connect to mongoDB: ${err.message}`);
-  console.error(err);
-})

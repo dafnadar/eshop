@@ -1,157 +1,84 @@
-import React, { useContext, useEffect, useReducer } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import ListGroup from "react-bootstrap/ListGroup";
-import { Helmet } from 'react-helmet-async';
-import Rating from "../components/Rating";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import Badge from "react-bootstrap/Badge";
-import Loading from "../components/Loading";
-import MessageBox from "../components/MessageBox";
-import { getError } from "../utils";
-import { Store } from "../store";
+import {
+  useParams, useEffect, useReducer, axios, Row, Col, Loading, MessageBox, getError, ProductDescription, CartDescription,
+  Store, useContext, useNavigate, GET_REQUEST, GET_FAIL, GET_SUCCESS, addToCartHandler
+} from '../Imports'
 
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "GET_REQUEST":
+const reducer = (state, { type, payload }) => {
+  switch (type) {
+    case GET_REQUEST:
       return { ...state, loading: true };
-    case "GET_SUCCESS":
-      return { ...state, product: action.payload, loading: false };
-    case "GET_FAILURE":
-      return { ...state, loading: false, error: action.payload };
+    case GET_SUCCESS:
+      return { ...state, product: payload, loading: false };
+    case GET_FAIL:
+      return { ...state, loading: false, error: payload };
     default:
       return state;
   }
 };
 
 function ProductPage() {
-  const navigate = useNavigate();
   const params = useParams();
   const { token } = params;
+  const navigate = useNavigate();
+
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { cart: { cartItems } } = state;
 
   const [{ loading, error, product }, dispatch] = useReducer(reducer, {
     loading: true,
-    error: "",
+    error: '',
     product: [],
   });
 
+  const addToCart = async () => {
+    await addToCartHandler(product, cartItems, ctxDispatch);
+    navigate('/cart');
+  }
+
   useEffect(() => {
     const getProduct = async () => {
-      dispatch({ type: "GET_REQUEST" });
+      dispatch({ type: GET_REQUEST });
 
       try {
         const res = await axios.get(`/api/v1/products/token/${token}`);
-        dispatch({ type: "GET_SUCCESS", payload: res.data });
+        dispatch({ type: GET_SUCCESS, payload: res.data });
       } catch (err) {
-        console.log("fff", err);
-        dispatch({ type: "GET_FAILURE", payload: getError(err) });
+        dispatch({ type: GET_FAIL, payload: getError(err) });
       }
     };
-    
+
     getProduct();
   }, [token]);
-  
-  const { state, dispatch: ctxDispatcher } = useContext(Store);  
-  const { cart } = state;
-  
-  const addToCartHandler = async () => {
-    const existItem = cart.cartItems.find((x) => x._id === product._id);
-    const quantity = existItem ? existItem.quantity + 1 : 1;
-    const { data } = await axios.get(`/api/v1/products/${product._id}`);
-    if (data.countInStock < quantity) {
-      window.alert('Sorry. Product is out of stock');
-      return;
-    }
-
-    ctxDispatcher({ type: 'ADD_TO_CART', payload: { ...product, quantity } });
-    navigate("/cart");
-  };
 
   return (
     <div>
-      {loading ? (
-        <Loading />
-      ) : error ? (
-        <MessageBox variant='danger'>{error}</MessageBox>
-      ) : (
-        <div>
-          <Row>
-            <Col md={6}>
-              <img
-                className="img-large"
-                src={product.image}
-                alt={product.name}
-              />
-            </Col>
-            <Col md={3}>
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  <Helmet>
-                    <title>{product.name}</title>
-                  </Helmet>
-                  <h1>{product.name}</h1>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Rating
-                    rating={product.rating}
-                    numReviews={product.numReviews}
-                  />
-                </ListGroup.Item>
-                <ListGroup.Item>Pirce : ${product.price}</ListGroup.Item>
-                <ListGroup.Item>
-                  Description:
-                  <p>{product.description}</p>
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
+      {loading ? <Loading />
+        :
+        error ?
+          (
+            <MessageBox variant='danger'>
+              {error}
+            </MessageBox>
+          )
+          :
+          (
+            <div>
+              <Row>
+                <Col md={6}>
+                  <img height={400} width={400} src={`${product.image}`} alt={product.title} />
+                </Col>
 
-            <Col md={3}>
-              <Card>
-                <Card.Body>
-                  <ListGroup variant="flush">
-                    <ListGroup.Item>
-                      <Row>
-                        <Col>Price:</Col>
-                        <Col>${product.price}</Col>
-                      </Row>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <Row>
-                        <Col>Status:</Col>
-                        <Col>
-                          {product.countInStock > 0 ? (
-                            <Badge bg="success">In Stock</Badge>
-                          ) : (
-                            <Badge bg="danger">Unavailable</Badge>
-                          )}
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
+                <Col md={3}>
+                  <ProductDescription {...product} />
+                </Col>
 
-                    {product.countInStock > 0 && (
-                      <ListGroup.Item>
-                        <div className="d-grid">
-                          <Button
-                            onClick={addToCartHandler}
-                            variant="primary">
-                            Add to Cart
-                          </Button>
-                        </div>
-                      </ListGroup.Item>
-                    )}
-                  </ListGroup>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </div>
-      )}
+                <Col md={3}>
+                  <CartDescription product={product} addToCart={addToCart} />
+                </Col>
+              </Row>
+            </div>
+          )}
     </div>
   );
 }
-
 export default ProductPage;

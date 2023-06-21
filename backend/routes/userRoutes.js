@@ -1,15 +1,10 @@
 import express from 'express';
-import User from '../models/UserModel.js';
 import expressAsyncHandler from 'express-async-handler';
 import bcrypt from 'bcryptjs';
+import User from '../models/UserModel.js';
 import { generateToken } from '../utils.js';
 
 const userRouter = express.Router();
-
-userRouter.get('/', async (req, res) => {
-    const users = await User.find();
-    res.send(users);
-});
 
 userRouter.post('/signin', expressAsyncHandler(async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
@@ -23,8 +18,8 @@ userRouter.post('/signin', expressAsyncHandler(async (req, res) => {
             });
             return;
         }
-        res.status(401).send({ message: 'Invalid password' });
     }
-}))
+    res.status(401).send({message: 'Invalid Password/User'});
+}));
 
 export default userRouter;
