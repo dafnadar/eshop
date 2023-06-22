@@ -3,17 +3,18 @@ import {
   GET_SUCCESS, GET_FAIL, GET_REQUEST
 } from '../Imports'
 
-function HomePage() {
-  const [{ loading, error, products }, dispatch] = useReducer(homePageReducer, {
-    loading: true,
+const initialState = {
+  loading: true,
     error: '',
     products: [],
-  });
+}
+
+function HomePage() {
+  const [{ loading, error, products }, dispatch] = useReducer(homePageReducer, initialState);
 
   useEffect(() => {
     const getProducts = async () => {
       dispatch({ type: GET_REQUEST });
-
       try {
         const res = await axios.get('api/v1/products');
         dispatch({ type: GET_SUCCESS, payload: res.data });

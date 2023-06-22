@@ -17,19 +17,23 @@ function ItemsInCart({ cartItems, updateCartHandler, removeItemHandler }) {
                         <ListGroup.Item key={item._id}>
                             <Row className="align-items-center">
                                 <Col md={4}>
-                                    <img className="img-fluid rounded img-thumbnail" src={item.image} alt={item.name} />
+                                    <img className="img-fluid rounded img-thumbnail" src={item.image} alt={item.title} />
                                     {' '}
-                                    <Link to={`/product/${item.token}`}>
-                                        {item.name}
-                                    </Link>
+                                    <div>
+                                        <Link className='align-items-bottom' to={`/product/${item.token}`}>
+                                            {item.title}
+                                        </Link>
+                                    </div>
                                 </Col>
                                 <Col md={3}>
+                                    {/* --------------- */}
                                     <Button onClick={() => updateCartHandler(item, item.quantity - 1)} variant="light" disabled={item.quantity === 1} >
                                         <i className="fas fa-minus-circle"></i>
                                     </Button>
                                     {' '}
                                     <span>{item.quantity}</span>
                                     {' '}
+                                    {/* ++++++++++++++++ */}
                                     <Button variant="light" disabled={item.quantity === item.countInStock} onClick={() => updateCartHandler(item, item.quantity + 1)}>
                                         <i className="fas fa-plus-circle"></i>
                                     </Button>
@@ -38,6 +42,7 @@ function ItemsInCart({ cartItems, updateCartHandler, removeItemHandler }) {
                                     {item.price}$
                                 </Col>
                                 <Col md={2}>
+                                    {/* trash */}
                                     <Button variant="light" onClick={() => removeItemHandler(item)}>
                                         <i className="fas fa-trash"></i>
                                     </Button>
