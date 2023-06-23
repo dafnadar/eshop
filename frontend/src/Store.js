@@ -8,8 +8,9 @@ const initialState = {
             JSON.parse(localStorage.getItem('cartItems'))
             :
             []
-    }
-}
+    },
+    userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
+};
 
 export function StoreProvider(props) {
     const [state, dispatch] = useReducer(storeReducer, initialState);

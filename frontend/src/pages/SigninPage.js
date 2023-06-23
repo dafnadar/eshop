@@ -1,13 +1,14 @@
+import { toast } from 'react-toastify';
 import {
     axios, useLocation, useNavigate, Container, useContext, useEffect, useState, Store,
-    getError, Title, SignInForm, USER_SIGNIN
+    getError, Title, USER_SIGNIN, Button, Form, Link
 } from '../Imports'
 
 function SigninPage() {
     const navigate = useNavigate();
     const { search } = useLocation();
-    const redirectInUrl = new URLSearchParams(search).get('redirect');
-    const redirect = redirectInUrl ? redirectInUrl : '/';
+    const redirectInUrl = new URLSearchParams(search).get('redirect'); // where to redirect aftet signin.. whats writen in URL
+    const redirect = redirectInUrl ? redirectInUrl : '/'; //final redirect. if above is null redirect to homePage.
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -30,7 +31,7 @@ function SigninPage() {
             navigate(redirect || '/');
 
         } catch (err) {
-            alert(getError(err));
+            toast.error(getError(err));
         }
     };
 
@@ -45,11 +46,35 @@ function SigninPage() {
         <Container className="small-container">
             <Title title='Sign-in' />
             <h1 className="my-3">Sign In</h1>
-            <SignInForm
-                submitHandler={submitHandler}
-                setEmail={setEmail}
-                setPassword={setPassword}
-                redirect={redirect} />
+            <Form onSubmit={submitHandler}>
+            <Form.Group className="mb-3" controlId="email">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                    type="email"
+                    required
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="password">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                    type="password"
+                    required
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+            </Form.Group>
+            <div className="mb-3">
+                <Button type="submit">Sign In</Button>
+            </div>
+            <div className="mb-3">
+                New customer?
+                {' '}
+                <Link to={`/signup?redirect=${redirect}`}>Create your account</Link>
+            </div>
+            <div className="mb-3">
+                Forget Password? <Link to={`/forget-password`}>Reset Password</Link>
+            </div>
+        </Form>
         </Container>
     )
 }

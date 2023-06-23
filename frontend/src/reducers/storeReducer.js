@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART } from '../Imports'
+import { ADD_TO_CART, REMOVE_FROM_CART, USER_SIGNIN, USER_SIGNOUT } from '../Imports'
 
 export const storeReducer = (state, action) => {
     switch (action.type) {
@@ -18,6 +18,15 @@ export const storeReducer = (state, action) => {
                 );
                 localStorage.setItem('cartItems', JSON.stringify(cartItems));
                 return { ...state, cart: { ...state.cart, cartItems } }
+            }
+
+        case USER_SIGNIN:
+            {
+                return { ...state, userInfo: action.payload };
+            }
+        case USER_SIGNOUT:
+            {
+                return { ...state, userInfo: null };
             }
 
         default:

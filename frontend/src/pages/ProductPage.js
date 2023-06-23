@@ -5,8 +5,8 @@ import {
 
 const initialState = {
   loading: true,
-    error: '',
-    product: [],
+  error: '',
+  product: [],
 }
 
 function ProductPage() {
@@ -63,6 +63,9 @@ function ProductPage() {
 
                 <Col md={3}>
                   <CartDescription product={product} addToCart={addToCart} />
+                  {/* <div>
+                    <Link to='/'>Go back to Home Page</Link>
+                  </div> */}
                 </Col>
               </Row>
             </div>

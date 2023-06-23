@@ -1,8 +1,12 @@
 import './App.css';
 import {
   BrowserRouter, Routes, Route, HomePage, ProductPage, Container, useContext, Store, CartPage,
-  SigninPage, Header, Footer
+  SigninPage, Header, Footer, ToastContainer
 } from './Imports';
+
+
+
+
 
 function App() {
   // const { state } = useContext(Store);
@@ -11,6 +15,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="d-flex flex-column side-allPage">
+        <ToastContainer position='bottom-center' limit={1}/>
         <Header />
         <main>
           <Container className='mt-3'>
