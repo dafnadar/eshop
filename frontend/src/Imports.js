@@ -35,6 +35,7 @@ import CartPage from './pages/CartPage';
 import SigninPage from './pages/SigninPage';
 import SignupPage from './pages/SignupPage';
 import PaymentPage from './pages/PaymentPage';
+import SubmitOrderPage from './pages/SubmitOrderPage';
 import Footer from './components/shared/Footer';
 import Header from './components/shared/Header';
 import App from './App';
@@ -58,5 +59,5 @@ export {
     ListGroup, Link, Rating, Product, Badge, LinkContainer, NavBar, Spinner, Alert, Helmet, Form, Route, Routes,
     BrowserRouter, HomePage, ProductPage, CartPage, SigninPage, SignupPage, Footer, Header, React, ReactDOM, App, reportWebVitals,
     HelmetProvider, StoreProvider, createContext, addToCartHandler, homePageReducer, storeReducer, productPageReducer, 
-    NavDropdown, USER_SIGNOUT, ToastContainer, CheckoutSteps, SAVE_SHIPPING_ADDRESS, SAVE_PAYMENT_METHOD, PaymentPage
+    NavDropdown, USER_SIGNOUT, ToastContainer, CheckoutSteps, SAVE_SHIPPING_ADDRESS, SAVE_PAYMENT_METHOD, PaymentPage, SubmitOrderPage
 };

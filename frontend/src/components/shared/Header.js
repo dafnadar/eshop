@@ -1,7 +1,10 @@
-import { Container, Link, Badge, LinkContainer, NavBar, axios, useContext, Store, addToCartHandler, NavDropdown, USER_SIGNOUT, } from "../../Imports";
+import { Container, Link, Badge, LinkContainer, NavBar, axios, useContext, Store, addToCartHandler, NavDropdown, USER_SIGNOUT, useNavigate, useLocation, } from "../../Imports";
 
 
 function Header() {
+
+    const navigate = useNavigate();
+    const location = useLocation();
     const { state, dispatch: ctxDispatch } = useContext(Store);
     const { cart: { cartItems }, cart, userInfo, } = state;
 
@@ -34,6 +37,10 @@ function Header() {
             <header className="header">
                 <NavBar bg="dark" variant="dark">
                     <Container>
+                    <Link onClick={() => navigate(-1)}>
+                        {location.pathname !== '/' && <i className="fas fa-arrow-left text-white align-arrow-right"></i>} 
+                    </Link> &nbsp
+                    
                         <LinkContainer to="/">
                             <NavBar.Brand>Eshop</NavBar.Brand>
                         </LinkContainer>
