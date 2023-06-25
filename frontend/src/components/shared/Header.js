@@ -26,6 +26,7 @@ function Header() {
         ctxDispatch({ type: USER_SIGNOUT });
         localStorage.removeItem("userInfo");
         localStorage.removeItem("shippingAddress");
+        localStorage.removeItem("paymentMethod");
     };
 
     return (

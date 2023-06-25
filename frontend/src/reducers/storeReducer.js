@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, USER_SIGNIN, USER_SIGNOUT, SAVE_SHIPPING_ADDRESS, USER_SIGNUP } from '../Imports'
+import { ADD_TO_CART, REMOVE_FROM_CART, USER_SIGNIN, USER_SIGNOUT, SAVE_SHIPPING_ADDRESS, SAVE_PAYMENT_METHOD } from '../Imports'
 
 export const storeReducer = (state, { type, payload }) => {
     switch (type) {
@@ -24,11 +24,15 @@ export const storeReducer = (state, { type, payload }) => {
             }
         case USER_SIGNOUT:
             {
-                return { ...state, userInfo: null, cart: { cartItems: [], shippingAddress: {} } };
+                return { ...state, userInfo: null, cart: { cartItems: [], shippingAddress: {}, paymentMethod: '' } };
             }
         case SAVE_SHIPPING_ADDRESS:
             {
                 return { ...state, cart: { ...state.cart, shippingAddress: payload } };
+            }
+        case SAVE_PAYMENT_METHOD:
+            {
+                return { ...state, cart: { ...state.cart, paymentMethod: payload } };
             }
         default:
             return state

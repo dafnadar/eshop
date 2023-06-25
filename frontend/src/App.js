@@ -1,7 +1,7 @@
 import './App.css';
 import {
   BrowserRouter, Routes, Route, HomePage, ProductPage, Container, useContext, Store, CartPage,
-  SigninPage, Header, Footer, ToastContainer, SignupPage
+  SigninPage, Header, Footer, ToastContainer, SignupPage, PaymentPage
 } from './Imports';
 import ShippingAddressPage from './pages/ShippingAddressPage';
 
@@ -21,6 +21,7 @@ function App() {
         <main>
           <Container className='mt-3'>
             <Routes>
+              <Route path="/payment" element={<PaymentPage />} />
               <Route path="/shipping" element={<ShippingAddressPage />} />
               <Route path="/signup" element={<SignupPage />} />
               <Route path="/signin" element={<SigninPage />} />
