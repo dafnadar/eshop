@@ -1,24 +1,9 @@
-import {
-    Container,
-    Link,
-    Badge,
-    LinkContainer,
-    NavBar,
-    axios,
-    useContext,
-    Store,
-    addToCartHandler,
-    NavDropdown,
-    USER_SIGNOUT,
-} from "../../Imports";
+import { Container, Link, Badge, LinkContainer, NavBar, axios, useContext, Store, addToCartHandler, NavDropdown, USER_SIGNOUT, } from "../../Imports";
+
 
 function Header() {
     const { state, dispatch: ctxDispatch } = useContext(Store);
-    const {
-        cart: { cartItems },
-        cart,
-        userInfo,
-    } = state;
+    const { cart: { cartItems }, cart, userInfo, } = state;
 
     //Cancels out default behaviour when the mouse is on the cart-icon
     const handleDragOver = (event) => {
@@ -40,6 +25,7 @@ function Header() {
     const signoutHandler = () => {
         ctxDispatch({ type: USER_SIGNOUT });
         localStorage.removeItem("userInfo");
+        localStorage.removeItem("shippingAddress");
     };
 
     return (

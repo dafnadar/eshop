@@ -1,9 +1,9 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, USER_SIGNIN, USER_SIGNOUT } from '../Imports'
+import { ADD_TO_CART, REMOVE_FROM_CART, USER_SIGNIN, USER_SIGNOUT, SAVE_SHIPPING_ADDRESS, USER_SIGNUP } from '../Imports'
 
-export const storeReducer = (state, action) => {
-    switch (action.type) {
+export const storeReducer = (state, { type, payload }) => {
+    switch (type) {
         case ADD_TO_CART:
-            const newItem = action.payload;
+            const newItem = payload;
             const existingItem = state.cart.cartItems.find((item) => item._id === newItem._id);
             const cartItems = existingItem ? state.cart.cartItems.map((item) => item._id === existingItem._id ? newItem : item)
                 :
@@ -11,24 +11,25 @@ export const storeReducer = (state, action) => {
 
             localStorage.setItem('cartItems', JSON.stringify(cartItems));
             return { ...state, cart: { ...state.cart, cartItems } };
-
         case REMOVE_FROM_CART:
             {
-                const cartItems = state.cart.cartItems.filter((item) => item._id !== action.payload._id
+                const cartItems = state.cart.cartItems.filter((item) => item._id !== payload._id
                 );
                 localStorage.setItem('cartItems', JSON.stringify(cartItems));
                 return { ...state, cart: { ...state.cart, cartItems } }
             }
-
         case USER_SIGNIN:
             {
-                return { ...state, userInfo: action.payload };
+                return { ...state, userInfo: payload };
             }
         case USER_SIGNOUT:
             {
-                return { ...state, userInfo: null };
+                return { ...state, userInfo: null, cart: { cartItems: [], shippingAddress: {} } };
             }
-
+        case SAVE_SHIPPING_ADDRESS:
+            {
+                return { ...state, cart: { ...state.cart, shippingAddress: payload } };
+            }
         default:
             return state
     }
