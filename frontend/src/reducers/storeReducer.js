@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, USER_SIGNIN, USER_SIGNOUT, SAVE_SHIPPING_ADDRESS, SAVE_PAYMENT_METHOD } from '../Imports'
+import { ADD_TO_CART, REMOVE_FROM_CART, CLEAR_CART, USER_SIGNIN, USER_SIGNOUT, SAVE_SHIPPING_ADDRESS, SAVE_PAYMENT_METHOD } from '../Imports'
 
 export const storeReducer = (state, { type, payload }) => {
     switch (type) {
@@ -17,6 +17,10 @@ export const storeReducer = (state, { type, payload }) => {
                 );
                 localStorage.setItem('cartItems', JSON.stringify(cartItems));
                 return { ...state, cart: { ...state.cart, cartItems } }
+            }
+        case CLEAR_CART:
+            {
+                return { ...state, cart: { ...state.cart, cartItems: [] } };
             }
         case USER_SIGNIN:
             {

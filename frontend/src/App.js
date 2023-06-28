@@ -3,6 +3,7 @@ import {
   BrowserRouter, Routes, Route, HomePage, ProductPage, Container, useContext, Store, CartPage,
   SigninPage, Header, Footer, ToastContainer, SignupPage, PaymentPage, SubmitOrderPage,
 } from './Imports';
+import OrderPage from './pages/OrderPage';
 import ShippingAddressPage from './pages/ShippingAddressPage';
 
 
@@ -21,6 +22,7 @@ function App() {
         <main>
           <Container className='mt-3'>
             <Routes>
+              <Route path="/order/:id" element={<OrderPage />} />
               <Route path="/placeOrder" element={<SubmitOrderPage />} />
               <Route path="/payment" element={<PaymentPage />} />
               <Route path="/shipping" element={<ShippingAddressPage />} />

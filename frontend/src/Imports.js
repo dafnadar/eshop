@@ -5,7 +5,7 @@ import Loading from './components/shared/Loading';
 import MessageBox from './components/shared/MessageBox';
 import Title from './components/shared/Title';
 import Products from './components/homePage/Products';
-import { GET_SUCCESS, GET_FAIL, GET_REQUEST, ADD_TO_CART, USER_SIGNIN, REMOVE_FROM_CART, USER_SIGNOUT, SAVE_SHIPPING_ADDRESS, SAVE_PAYMENT_METHOD } from './Actions';
+import { GET_SUCCESS, GET_FAIL, GET_REQUEST, ADD_TO_CART, USER_SIGNIN, REMOVE_FROM_CART, CLEAR_CART, USER_SIGNOUT, SAVE_SHIPPING_ADDRESS, SAVE_PAYMENT_METHOD } from './Actions';
 import { useParams, useNavigate, useLocation, Link, BrowserRouter, Routes, Route } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -55,7 +55,7 @@ import CheckoutSteps from './components/CheckoutSteps'
 export {
     useEffect, useReducer, axios, Loading, MessageBox, Title, Products, GET_SUCCESS, GET_FAIL, GET_REQUEST,
     useContext, ADD_TO_CART, useParams, useNavigate, Row, Col, getError, ProductDescription, CartDescription, Store,
-    useState, USER_SIGNIN, useLocation, Container, Checkout, SignInForm, ItemsInCart, REMOVE_FROM_CART, Card, Button,
+    useState, USER_SIGNIN, useLocation, Container, Checkout, SignInForm, ItemsInCart, REMOVE_FROM_CART, CLEAR_CART, Card, Button,
     ListGroup, Link, Rating, Product, Badge, LinkContainer, NavBar, Spinner, Alert, Helmet, Form, Route, Routes,
     BrowserRouter, HomePage, ProductPage, CartPage, SigninPage, SignupPage, Footer, Header, React, ReactDOM, App, reportWebVitals,
     HelmetProvider, StoreProvider, createContext, addToCartHandler, homePageReducer, storeReducer, productPageReducer, 

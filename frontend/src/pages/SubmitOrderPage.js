@@ -1,28 +1,72 @@
-import React from "react";
+import { toast } from "react-toastify";
+import React, { useReducer } from "react";
 import {
-    CheckoutSteps, Title, Row, Col, Card, Store, useContext, Link, ListGroup, Button, useEffect, useNavigate
+    CheckoutSteps, Title, Row, Col, Card, Store, useContext, Link, ListGroup, Button, useEffect, useNavigate, getError, axios, Loading
 } from "../Imports";
 
+const reducer = (state, { type, payload }) => {
+    switch (type) {
+        case "CREATE_REQUEST":
+            return { ...state, loading: true }
+        case "CREATE_SUCCEEDED":
+            return { ...state, loading: false }
+        case "CREATE_FAILED":
+            return { ...state, loading: false }
+        default:
+            return state
+    }
+};
+
 const SubmitOrderPage = () => {
+
+    const [{ loading }, dispatch] = useReducer(reducer, { loading: false });
+
+
+
     const navigate = useNavigate();
     const { state, dispatch: ctxDispatch } = useContext(Store);
     const { cart, userInfo } = state;
     const { paymentMethod } = cart;
-    
 
-    const submitOrderHandler = () => {
 
+    const submitOrderHandler = async () => {
+        
+        try {
+            dispatch({type: "CREATE_REQUEST"});
+            const {data} = await axios.post("/api/v1/orders", {
+                orderItems: cart.cartItems,
+                shippingAddress: cart.shippingAddress,
+                paymentMethod: paymentMethod,
+                itemsPrice: cart.itemsPrice,
+                shippingPrice: cart.shippingPrice,
+                taxPrice: cart.taxPrice,
+                totalPrice: cart.totalPrice
+            }, {
+                headers: {authorization: `Bearer ${userInfo.token} `}
+            })
+
+            dispatch({type: "CREATE_SUCCEEDED"});
+            // upade global state - empty the cart after sending data to server            
+            ctxDispatch({type: "CLEAR_CART"});
+            localStorage.removeItem("cartItems");
+            navigate(`/order/${data.order._id}`);
+            
+        } catch (err) {
+            dispatch({type: "CREATE_FAILED"});
+            //toast.error(getError(err));
+            alert((err.message));
+        }
     }
 
     const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
 
-    cart.itemsPrice = round2(cart.cartItems.reduce( (sum, item) => sum + item.price * item.quantity, 0 ))
+    cart.itemsPrice = round2(cart.cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0))
     cart.taxPrice = round2(cart.itemsPrice * 0.17);
     cart.shippingPrice = cart.itemsPrice > 50 ? round2(cart.itemsPrice * 0.01) : round2(cart.itemsPrice * 0.02)
     cart.totalPrice = cart.itemsPrice + cart.taxPrice + cart.shippingPrice;
 
     useEffect(() => {
-        if(!paymentMethod) {
+        if (!paymentMethod) {
             navigate('/payment');
         }
 
@@ -136,6 +180,7 @@ const SubmitOrderPage = () => {
                                             disabled={cart.cartItems.lenght === 0}
                                         >Submit</Button>
                                     </div>
+                                    {loading && <Loading/>}
                                 </ListGroup.Item>
                             </ListGroup>
                         </Card.Body>
