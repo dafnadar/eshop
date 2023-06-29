@@ -1,4 +1,4 @@
-function Rating({ rating, numReviews }) {
+function Rating({ rating, numReviews, caption }) {
 
   return (
     <div className="rating">
@@ -8,8 +8,8 @@ function Rating({ rating, numReviews }) {
             rating >= 1
               ? 'fas fa-star'
               : rating >= 0.5
-              ? 'fas fa-star-half-alt'
-              : 'far fa-star'
+                ? 'fas fa-star-half-alt'
+                : 'far fa-star'
           }
         ></i>
       </span>
@@ -19,8 +19,8 @@ function Rating({ rating, numReviews }) {
             rating >= 2
               ? 'fas fa-star'
               : rating >= 1.5
-              ? 'fas fa-star-half-alt'
-              : 'far fa-star'
+                ? 'fas fa-star-half-alt'
+                : 'far fa-star'
           }
         ></i>
       </span>
@@ -30,8 +30,8 @@ function Rating({ rating, numReviews }) {
             rating >= 3
               ? 'fas fa-star'
               : rating >= 2.5
-              ? 'fas fa-star-half-alt'
-              : 'far fa-star'
+                ? 'fas fa-star-half-alt'
+                : 'far fa-star'
           }
         ></i>
       </span>
@@ -41,8 +41,8 @@ function Rating({ rating, numReviews }) {
             rating >= 4
               ? 'fas fa-star'
               : rating >= 3.5
-              ? 'fas fa-star-half-alt'
-              : 'far fa-star'
+                ? 'fas fa-star-half-alt'
+                : 'far fa-star'
           }
         ></i>
       </span>
@@ -52,12 +52,17 @@ function Rating({ rating, numReviews }) {
             rating >= 5
               ? 'fas fa-star'
               : rating >= 4.5
-              ? 'fas fa-star-half-alt'
-              : 'far fa-star'
+                ? 'fas fa-star-half-alt'
+                : 'far fa-star'
           }
         ></i>
       </span>
       <span>{numReviews} Reviews</span>
+      {caption ? (
+        <span>{caption}</span>
+      ) : (
+        <span>{' ' + numReviews + ' reviews'}</span>
+      )}
     </div>
   );
 }

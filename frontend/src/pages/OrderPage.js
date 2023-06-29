@@ -24,7 +24,7 @@ const OrderPage = () => {
   const [{ loading, error, order }, dispatch] = useReducer(reducer, {
     loading: true,
     error: "",
-    order: {},
+    order: null,
   });
 
   useEffect(() => {
@@ -43,9 +43,10 @@ const OrderPage = () => {
       navigate("/signin");
     }
 
-    if (!order._id || (order._id && orderId !== order._id)) {
-      getOrder();
-    }
+    if (!order || (order._id && (orderId !== order._id))) {
+        getOrder();
+      }
+
   }, [navigate, userInfo, orderId, order]);
 
   return loading ? (

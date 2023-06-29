@@ -1,4 +1,5 @@
 import { Container, Link, Badge, LinkContainer, NavBar, axios, useContext, Store, addToCartHandler, NavDropdown, USER_SIGNOUT, useNavigate, useLocation, } from "../../Imports";
+import SearchBox from "./SearchBox";
 
 
 function Header() {
@@ -37,13 +38,14 @@ function Header() {
             <header className="header">
                 <NavBar bg="dark" variant="dark">
                     <Container>
-                    <Link onClick={() => navigate(-1)}>
-                        {location.pathname !== '/' && <i className="fas fa-arrow-left text-white align-arrow-right"></i>} 
-                    </Link> &nbsp
-                    
+                        <Link style={{ textDecoration: 'none' }} onClick={() => navigate(-1)}>
+                            {location.pathname !== '/' && <i className="fas fa-arrow-left text-white align-arrow-right"></i> }                          
+                        <span>&nbsp;&nbsp;</span>
+                        </Link>                                                 
                         <LinkContainer to="/">
                             <NavBar.Brand>Eshop</NavBar.Brand>
                         </LinkContainer>
+                        <SearchBox/>
                         <nav
                             onDragOver={handleDragOver}
                             onDrop={handleDrop}
